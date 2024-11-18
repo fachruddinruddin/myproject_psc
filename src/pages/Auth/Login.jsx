@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = () => {
                 <h2 className="text-2xl font-bold text-center">Login</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700">Email:</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
                         <input
                             type="email"
                             value={email}
@@ -27,7 +28,7 @@ const Login = () => {
                         />
                     </div>
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700">Password:</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-700">Password</label>
                         <input
                             type="password"
                             value={password}
@@ -43,6 +44,11 @@ const Login = () => {
                         Login
                     </button>
                 </form>
+                <div className="text-center">
+                    <Link to="/register" className="text-indigo-600 hover:underline">
+                        Don't have an account? Register
+                    </Link>
+                </div>
             </div>
         </div>
     );
