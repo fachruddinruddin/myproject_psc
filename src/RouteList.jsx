@@ -3,7 +3,8 @@ import App from './App.jsx';
 import Login from './pages/Auth/Login.jsx';
 import Register from './pages/Auth/Register.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
-import Dashboard from './pages/Admin/Dashboard.jsx'; // Ensure Dashboard is imported
+import Dashboard from './pages/Admin/Dashboard.jsx';
+import Mahasiswa from './pages/Admin/Mahasiswa.jsx';
 
 const RouteList = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const RouteList = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <Dashboard />, 
+      },
+      {
+        path: 'mahasiswa',
+        element: <Mahasiswa />, 
       },
     ],
   },

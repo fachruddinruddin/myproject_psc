@@ -1,21 +1,23 @@
 import React from "react";
-import Button from '../components/button';
+import { Link, Outlet } from "react-router-dom"; // Added Outlet import
+import Button from "../components/button";
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = () => {
   return (
-    <div class="flex flex-row min-h-screen">
-      <aside class="w-64 bg-indigo-900 text-white">
-        <div class="p-4">
-          <h2 class="text-2xl font-bold">Admin Panel</h2>
-          <nav class="ml-4 mt-5">
+    <div className="flex flex-row min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-64 bg-indigo-900 text-white">
+        <div className="p-4">
+          <h2 className="text-2xl font-bold">Admin Panel</h2>
+          <nav className="ml-4 mt-5">
             <ul>
-              <li class="hover:text-indigo-500">
-                <a href="#dashboard">Dashboard</a>
+              <li className="hover:text-indigo-500">
+                <Link to="/admin">Dashboard</Link>
               </li>
-              <li class="hover:text-indigo-500">
-                <a href="#mahasiswa">Mahasiswa</a>
+              <li className="hover:text-indigo-500">
+                <Link to="/admin/mahasiswa">Mahasiswa</Link>
               </li>
-              <li class="hover:text-indigo-500">
+              <li className="hover:text-indigo-500">
                 <a href="#settings">Settings</a>
               </li>
             </ul>
@@ -23,16 +25,18 @@ const AdminLayout = ({ children }) => {
         </div>
       </aside>
 
-      <div class="flex flex-1 flex-col">
-        <header class="bg-white shadow p-4 flex justify-end">
-          <Button style="primary" text="Logout" />
+      {/* Main Content */}
+      <div className="flex flex-1 flex-col">
+        <header className="bg-white shadow p-4 flex justify-end">
+          <Button className="primary" text="Logout" />
         </header>
 
-        <main class="flex-grow bg-blue-50 p-4">
-          {children}
+        {/* This is where nested routes will be rendered */}
+        <main className="flex-grow bg-blue-50 p-4">
+          <Outlet />
         </main>
 
-        <footer class="bg-indigo-900 p-4 text-white text-center">
+        <footer className="bg-indigo-900 p-4 text-white text-center">
           &copy; 2024 Admin Panel
         </footer>
       </div>
