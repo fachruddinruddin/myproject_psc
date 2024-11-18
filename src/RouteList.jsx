@@ -29,7 +29,7 @@ const RouteList = createBrowserRouter([
       },
       {
         path: 'mahasiswa',
-        element: <Mahasiswa />, 
+        element: <Mahasiswa />,
       },
     ],
   },
