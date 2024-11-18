@@ -5,9 +5,9 @@ import Table from "@/components/Table";
 
 const Modal = ({ onClose, onSubmit, mahasiswa }) => {
   return (
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-        <h3 class="text-lg font-bold mb-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h3 className="text-lg font-bold mb-4">
           {mahasiswa ? "Edit Mahasiswa" : "Tambah Mahasiswa"}
         </h3>
         <form onSubmit={onSubmit}>
@@ -16,8 +16,8 @@ const Modal = ({ onClose, onSubmit, mahasiswa }) => {
             name="id"
             defaultValue={mahasiswa ? mahasiswa.id : ""}
           />
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
               Nama:
             </label>
             <input
@@ -25,11 +25,11 @@ const Modal = ({ onClose, onSubmit, mahasiswa }) => {
               name="nama"
               defaultValue={mahasiswa ? mahasiswa.nama : ""}
               required
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
               NIM:
             </label>
             <input
@@ -37,15 +37,15 @@ const Modal = ({ onClose, onSubmit, mahasiswa }) => {
               name="nim"
               defaultValue={mahasiswa ? mahasiswa.nim : ""}
               required
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
-          <div class="flex justify-end">
+          <div className="flex justify-end">
             <Button
               style="danger"
               text="Batal"
               onClick={onClose}
-              class="mr-2"
+              className="mr-2"
             />
             <Button
               style="primary"
@@ -73,6 +73,13 @@ const Mahasiswa = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const { id, nama, nim } = Object.fromEntries(new FormData(e.target));
+    const existingMahasiswa = mahasiswaData.find((m) => m.nim === nim);
+
+    if (existingMahasiswa && existingMahasiswa.id !== Number(id)) {
+      Swal.fire("Gagal", "NIM sudah terdaftar", "error");
+      return;
+    }
+
     if (id) {
       setMahasiswaData((prev) =>
         prev.map((m) => (m.id === Number(id) ? { ...m, nama, nim } : m))
@@ -106,13 +113,13 @@ const Mahasiswa = () => {
 
   return (
     <div>
-      <h2 class="text-2xl font-bold p-5">Daftar Mahasiswa</h2>
-      <div class="bg-white p-6 rounded-lg shadow">
+      <h2 className="text-2xl font-bold p-5">Daftar Mahasiswa</h2>
+      <div className="bg-white p-6 rounded-lg shadow">
         <Button
           style="success"
           text="Tambah Mahasiswa"
           onClick={toggleModal}
-          class="mb-5"
+          className="mb-5"
         />
         <Table
           data={mahasiswaData}
