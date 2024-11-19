@@ -12,7 +12,7 @@ const AdminLayout = () => {
       {/* Main Content */}
       <div className="flex flex-1 flex-col">
         <header className="bg-white shadow p-4 flex justify-end">
-          <Button className="primary" text="Logout" />
+          <Button className="primary" text="Logout" onClick={() => { window.location.href = '/login'; }} />
         </header>
 
         <main className="flex-grow bg-blue-50 p-4">

@@ -47,11 +47,7 @@ const Modal = ({ onClose, onSubmit, mahasiswa }) => {
               onClick={onClose}
               className="mr-2"
             />
-            <Button
-              style="primary"
-              text="Simpan"
-              type="submit"
-            />
+            <Button style="primary" text="Simpan" type="submit" />
           </div>
         </form>
       </div>
@@ -113,7 +109,10 @@ const Mahasiswa = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold p-5">Daftar Mahasiswa</h2>
+      <div className="p-6 bg-gray-100 min-h-screen">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Daftar Mahasiswa
+      </h2>
       <div className="bg-white p-6 rounded-lg shadow">
         <Button
           style="success"
@@ -134,6 +133,7 @@ const Mahasiswa = () => {
           mahasiswa={currentMahasiswa}
         />
       )}
+    </div>
     </div>
   );
 };
