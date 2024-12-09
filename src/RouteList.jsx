@@ -5,6 +5,7 @@ import Register from './pages/Auth/Register.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import Dashboard from './pages/Admin/Dashboard.jsx';
 import Mahasiswa from './pages/Admin/Mahasiswa.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const RouteList = createBrowserRouter([
   {
@@ -26,7 +27,11 @@ const RouteList = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),    
     children: [
       {
         index: true,
