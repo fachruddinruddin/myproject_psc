@@ -10,6 +10,11 @@ const RouteList = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />, 
+      },],
   },
   {
     path: '/login',
