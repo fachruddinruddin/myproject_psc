@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@/components/Card';
 import { FaUserGraduate, FaBookOpen, FaCog } from 'react-icons/fa';
+import { getMahasiswaCount } from './Mahasiswa';
 
 const Dashboard = () => {
   const [mahasiswaCount, setMahasiswaCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch the count of Mahasiswa from your API
     const fetchMahasiswaCount = async () => {
       try {
-        const response = await fetch('/api/mahasiswa/count'); // Replace with your API endpoint
-        const data = await response.json();
-        setMahasiswaCount(data.count);
+        const count = await getMahasiswaCount();
+        setMahasiswaCount(count);
       } catch (error) {
         console.error('Error fetching Mahasiswa count:', error);
       } finally {

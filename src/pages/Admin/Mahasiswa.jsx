@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+export const getMahasiswaCount = async () => {
+  try {
+    const response = await axios.get(
+      "https://jsonplaceholder.typicode.com/posts"
+    );
+    return response.data.length;
+  } catch (error) {
+    throw new Error("Error fetching Mahasiswa count");
+  }
+};
+
 const Mahasiswa = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -21,7 +32,7 @@ const Mahasiswa = () => {
       );
       setData([...data, response.data]);
       setForm({ title: "", body: "" });
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     } catch (error) {
       setError("Error saat submit");
     }
@@ -33,7 +44,7 @@ const Mahasiswa = () => {
         const response = await axios.get(
           "https://jsonplaceholder.typicode.com/posts"
         );
-        setData(response.data.slice(0, 5));
+        setData(response.data);
       } catch (error) {
         setError("Error saat fetch data");
       }
