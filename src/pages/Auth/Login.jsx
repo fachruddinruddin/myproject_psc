@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { login as loginAction } from "../../redux/AuthSlice";
 
-const Login = () => {
+const LoginPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-
-    if(token){
-        navigate("/admin");
-    }
-  }, [navigate]);
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +36,8 @@ const Login = () => {
       );
 
       if (response.data.code === 200) {
-        localStorage.setItem("authToken", response.data.token);
+        const {user, token} = response.data.data;
+        dispatch(loginAction({ user, token }));
 
         Swal.fire({
           icon: "success",
@@ -98,8 +94,7 @@ const Login = () => {
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 px-3 py-2 text-sm text-gray-600"
-              >
-              </button>
+              ></button>
             </div>
           </div>
           <button
@@ -122,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

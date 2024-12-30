@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
     if (!token) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [token, navigate]);
 
-  return children;
+  return token ? children : null;
 };
 
 export default ProtectedRoute;

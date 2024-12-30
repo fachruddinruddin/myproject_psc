@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,6 +45,7 @@ const Register = () => {
           email: "",
           password: "",
         });
+        navigate("/login");
       }
     } catch (error) {
       Swal.fire({
