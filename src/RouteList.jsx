@@ -4,6 +4,7 @@ import Login from './pages/Auth/Login.jsx';
 import Register from './pages/Auth/Register.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import Dashboard from './pages/Admin/Dashboard.jsx';
+import Posts from './pages/Admin/Posts.jsx';
 import Mahasiswa from './pages/Admin/Mahasiswa.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
@@ -40,6 +41,10 @@ const RouteList = createBrowserRouter([
       {
         path: 'mahasiswa',
         element: <Mahasiswa />,
+      },
+      {
+        path: 'posts',
+        element: <Posts />,
       },
     ],
   },
