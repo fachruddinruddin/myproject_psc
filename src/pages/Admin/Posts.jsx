@@ -45,6 +45,7 @@ const Mahasiswa = () => {
           "https://jsonplaceholder.typicode.com/posts"
         );
         setData(response.data);
+        setData(response.data.slice(0, 5));
       } catch (error) {
         setError("Error saat fetch data");
       }

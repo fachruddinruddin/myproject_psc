@@ -13,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const postsCount = await getMahasiswaCount();
+        const postsCount = 5;
         // Get mahasiswa count from your static data
         const mahasiswaCount = 3; // This matches your static data in Mahasiswa.js
 
