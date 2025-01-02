@@ -30,18 +30,19 @@ const AdminLayout = () => {
         <header className="bg-white shadow p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Admin Dashboard</h1>
-            <p className="text-sm text-gray-600">
-              Welcome, {user.name} ({user.email})
-            </p>
+            {user ? (
+              <p className="text-sm text-gray-600">
+                Welcome, {user.name} ({user.email})
+              </p>
+            ) : (
+              <p className="text-sm text-gray-600">Welcome, Guest</p>
+            )}
           </div>
           <Button className="primary" text="Logout" onClick={handleLogout} />
         </header>
         <main className="flex-grow bg-gray-100 p-6">
-          <Outlet /> {/* Render nested routes here */}
+          <Outlet />
         </main>
-        <footer className="bg-indigo-900 p-4 text-white text-center">
-          &copy; 2024 Admin Panel
-        </footer>
       </div>
     </div>
   );

@@ -12,6 +12,8 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +25,7 @@ const LoginPage = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://demo-api.syaifur.io/api/login",
@@ -36,7 +38,7 @@ const LoginPage = () => {
       );
 
       if (response.data.code === 200) {
-        const {user, token} = response.data.data;
+        const { user, token } = response.data.data;
         dispatch(loginAction({ user, token }));
 
         Swal.fire({
@@ -44,6 +46,7 @@ const LoginPage = () => {
           title: "Login Success",
           text: response.data.message,
         });
+
         setLoginData({
           email: "",
           password: "",
@@ -55,8 +58,10 @@ const LoginPage = () => {
       Swal.fire({
         icon: "error",
         title: "Login Failed",
-        text: error.response.data.message,
+        text: error.response?.data?.message || "An error occurred",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +89,7 @@ const LoginPage = () => {
             </label>
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={loginData.password}
                 onChange={handleLoginChange}
@@ -93,15 +98,19 @@ const LoginPage = () => {
               />
               <button
                 type="button"
+                onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 px-3 py-2 text-sm text-gray-600"
-              ></button>
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
             </div>
           </div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <div className="text-center mt-4">

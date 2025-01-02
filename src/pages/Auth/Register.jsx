@@ -10,6 +10,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +25,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validasi form data
+    if (!formData.name || !formData.email || !formData.password) {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Input",
+        text: "Please fill out all fields",
+      });
+      return;
+    }
+
+    setLoading(true); // Mulai loader
     try {
       const response = await axios.post(
         "http://demo-api.syaifur.io/api/register",
@@ -51,8 +64,10 @@ const Register = () => {
       Swal.fire({
         icon: "error",
         title: "Register Failed",
-        text: error.response.data.message,
+        text: error.response?.data?.message || "An error occurred",
       });
+    } finally {
+      setLoading(false); // Akhiri loader
     }
   };
 
@@ -93,7 +108,7 @@ const Register = () => {
             </label>
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -102,15 +117,19 @@ const Register = () => {
               />
               <button
                 type="button"
+                onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 px-3 py-2 text-sm text-gray-600"
-              ></button>
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
             </div>
           </div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            disabled={loading}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
         <div className="text-center mt-4">
