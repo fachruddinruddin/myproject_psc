@@ -41,6 +41,9 @@ const LoginPage = () => {
         const { user, token } = response.data.data;
         dispatch(loginAction({ user, token }));
 
+        // Simpan token ke localStorage
+        localStorage.setItem("auth_token", token);
+
         Swal.fire({
           icon: "success",
           title: "Login Success",
