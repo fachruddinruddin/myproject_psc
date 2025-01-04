@@ -29,7 +29,7 @@ const Table = ({ data, onEdit, onDelete }) => {
                 <td className="px-4 py-2 border">{mahasiswa.alamat}</td>
                 <td className="px-4 py-2 border text-center">{mahasiswa.umur}</td>
                 <td className="px-4 py-2 border text-center">
-                  <Button className="my-1 px-2 py-1 text-sm" text="Edit" style="warning" onClick={() => onEdit(mahasiswa)} />
+                  <Button className="mx-1 my-1 px-2 py-1 text-sm" text="Edit" style="warning" onClick={() => onEdit(mahasiswa)} />
                   <Button className="px-2 py-1 text-sm" text="Hapus" style="danger" onClick={() => onDelete(mahasiswa.id)} />
                 </td>
               </tr>
