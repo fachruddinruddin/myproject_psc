@@ -123,7 +123,7 @@ const Mahasiswa = () => {
             },
           }
         );
-        setMahasiswaData(response.data.data); // Set data ke state mahasiswaData
+        setMahasiswaData(response.data.data); 
       } catch (error) {
         Swal.fire("Error", "Gagal mengambil data mahasiswa", "error");
       }
@@ -136,7 +136,6 @@ const Mahasiswa = () => {
     e.preventDefault();
     const { id, nama, nim, alamat, umur, progdi_id } = Object.fromEntries(new FormData(e.target));
   
-    // Tentukan URL API dan metode (POST jika id tidak ada, PUT jika id ada)
     const url = id
       ? `http://demo-api.syaifur.io/api/mahasiswa/${id}`
       : "http://demo-api.syaifur.io/api/mahasiswa";
@@ -147,7 +146,7 @@ const Mahasiswa = () => {
         method,
         url,
         data: {
-          progdi_id,  // Pastikan ini ada dalam data yang dikirimkan
+          progdi_id, 
           nama,
           nim,
           alamat,
@@ -158,18 +157,16 @@ const Mahasiswa = () => {
         },
       });
 
-      // Jika berhasil mengedit, update state mahasiswaData
       if (id) {
         setMahasiswaData((prev) =>
           prev.map((m) => (m.id === Number(id) ? { ...m, nama, nim, alamat, umur, progdi_id } : m))
         );
       } else {
-        // Jika berhasil menambah, tambahkan data baru ke state mahasiswaData
         setMahasiswaData((prev) => [...prev, response.data.data]);
       }
 
       Swal.fire("Berhasil", `Mahasiswa ${id ? "diupdate" : "ditambahkan"}!`, "success");
-      toggleModal(); // Tutup modal setelah submit
+      toggleModal(); 
     } catch (error) {
       console.log(error.response);
       Swal.fire("Error", error.response?.data?.message || "Gagal menyimpan data mahasiswa", "error");
