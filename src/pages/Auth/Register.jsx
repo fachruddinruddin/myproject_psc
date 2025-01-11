@@ -24,47 +24,31 @@ const Register = () => {
   //submit data
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validasi form data
-    if (!formData.name || !formData.email || !formData.password) {
-      Swal.fire({
-        icon: "warning",
-        title: "Invalid Input",
-        text: "Please fill out all fields",
-      });
-      return;
-    }
-
-    setLoading(true); // Mulai loader
     try {
-      const response = await axios.post(
-        "http://demo-api.syaifur.io/api/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post('http://localhost:5000/api/register', formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (response.data.code === 201) {
-        Swal.fire({
-          icon: "success",
-          title: "Register Success",
-          text: response.data.message,
-        });
+      if (response.status === 201) {
         setFormData({
           name: "",
           email: "",
           password: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Pendaftaran Berhasil",
+          text: response.data.message,
         });
         navigate("/login");
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Register Failed",
-        text: error.response?.data?.message || "An error occurred",
+        title: "Pendaftaran Gagal",
+        text: error.response?.data?.message || "Silahkan coba lagi",
       });
     } finally {
       setLoading(false); // Akhiri loader

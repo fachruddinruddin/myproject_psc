@@ -23,12 +23,12 @@ const LoginPage = () => {
     });
   };
 
-  const handleLoginSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://demo-api.syaifur.io/api/login",
+        "http://localhost:5000/api/login",
         loginData,
         {
           headers: {
@@ -37,22 +37,19 @@ const LoginPage = () => {
         }
       );
 
-      if (response.data.code === 200) {
+      if (response.status === 200) {
         const { user, token } = response.data.data;
-        dispatch(loginAction({ user, token }));
 
-        // Simpan token ke localStorage
+        // Store token in localStorage
         localStorage.setItem("auth_token", token);
+
+        // Dispatch login action with user and token
+        dispatch(loginAction({ user, token }));
 
         Swal.fire({
           icon: "success",
-          title: "Login Success",
+          title: "Login Berhasil",
           text: response.data.message,
-        });
-
-        setLoginData({
-          email: "",
-          password: "",
         });
 
         navigate("/admin");
@@ -60,8 +57,8 @@ const LoginPage = () => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
-        text: error.response?.data?.message || "An error occurred",
+        title: "Login Gagal",
+        text: error.response?.data?.message || "Silahkan coba lagi",
       });
     } finally {
       setLoading(false);
@@ -72,7 +69,7 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form onSubmit={handleLoginSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Email

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "@/components/Card";
 import { Users, FileText, Activity } from "lucide-react";
-import { getMahasiswaCount } from "./Posts";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({

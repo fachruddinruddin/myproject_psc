@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const getMahasiswaCount = async () => {
-  try {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
-    return response.data.length;
-  } catch (error) {
-    throw new Error("Error fetching Mahasiswa count");
-  }
-};
-
-const Mahasiswa = () => {
+const Posts = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  const [form, setForm] = useState({ title: "", body: "" });
+  const [form, setForm] = useState({ location: "", severity: "", description: "", date: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
@@ -27,11 +16,17 @@ const Mahasiswa = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://jsonplaceholder.typicode.com/posts",
-        form
+        "http://localhost:5000/api/flood",
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setData([...data, response.data]);
-      setForm({ title: "", body: "" });
+      setForm({ location: "", severity: "", description: "", date: "" });
       setIsModalOpen(false);
     } catch (error) {
       setError("Error saat submit");
@@ -41,11 +36,8 @@ const Mahasiswa = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
+        const response = await axios.get("http://localhost:5000/api/flood");
         setData(response.data);
-        setData(response.data.slice(0, 5));
       } catch (error) {
         setError("Error saat fetch data");
       }
@@ -56,7 +48,7 @@ const Mahasiswa = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Daftar Posts</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Daftar Flood Reports</h1>
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setIsModalOpen(true)}
@@ -74,16 +66,20 @@ const Mahasiswa = () => {
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2">No</th>
-                <th className="px-4 py-2">Title</th>
-                <th className="px-4 py-2">Body</th>
+                <th className="px-4 py-2">Location</th>
+                <th className="px-4 py-2">Severity</th>
+                <th className="px-4 py-2">Description</th>
+                <th className="px-4 py-2">Date</th>
               </tr>
             </thead>
             <tbody>
               {data.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={item._id}>
                   <td className="border px-4 py-2">{index + 1}</td>
-                  <td className="border px-4 py-2">{item.title}</td>
-                  <td className="border px-4 py-2">{item.body}</td>
+                  <td className="border px-4 py-2">{item.location}</td>
+                  <td className="border px-4 py-2">{item.severity}</td>
+                  <td className="border px-4 py-2">{item.description}</td>
+                  <td className="border px-4 py-2">{new Date(item.date).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -94,8 +90,8 @@ const Mahasiswa = () => {
       <div className="mt-8 bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Informasi</h2>
         <p className="text-gray-600">
-          Halaman ini menampilkan daftar posts yang tersedia. Anda dapat
-          menambah, mengedit, atau menghapus data post. Data akan diperbarui
+          Halaman ini menampilkan daftar laporan banjir yang tersedia. Anda dapat
+          menambah, mengedit, atau menghapus data laporan banjir. Data akan diperbarui
           secara otomatis setelah setiap perubahan.
         </p>
       </div>
@@ -108,15 +104,15 @@ const Mahasiswa = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
-                  htmlFor="title"
+                  htmlFor="location"
                   className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  Title:
+                  Location:
                 </label>
                 <input
                   type="text"
-                  name="title"
-                  value={form.title}
+                  name="location"
+                  value={form.location}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border rounded-lg"
                   required
@@ -124,14 +120,46 @@ const Mahasiswa = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="body"
+                  htmlFor="severity"
                   className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  Body:
+                  Severity:
+                </label>
+                <input
+                  type="text"
+                  name="severity"
+                  value={form.severity}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Description:
                 </label>
                 <textarea
-                  name="body"
-                  value={form.body}
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="date"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Date:
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={form.date}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border rounded-lg"
                   required
@@ -160,4 +188,4 @@ const Mahasiswa = () => {
   );
 };
 
-export default Mahasiswa;
+export default Posts;
